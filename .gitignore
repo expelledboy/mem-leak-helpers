@@ -1,2 +1,2 @@
-.direnv/
-mem_usage.png
+/.direnv
+/mem_usage.png

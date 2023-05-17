@@ -2,6 +2,10 @@
 
 > Utilities to assist you finding processes that are leaking memory on a running system
 
+Here is a preview of the graph generated.
+
+![Graph](./assets/mem_usage.png)
+
 ### Requirements
 
 The scripts in this project uses the following versions of the tools, installed locally:
