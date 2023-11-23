@@ -1,6 +1,19 @@
 _default:
     @just --list --unsorted
 
+# Run the memory usage collection script (locally)
+start sample_rate="5":
+    bash src/collect_mem_usage.sh -s {{sample_rate}}
+
+# Purge files used for local collection
+clean:
+    rm -rf /tmp/mem_usage
+
+# Plot the data and open the graph
+plot:
+    ./src/plot_data.sh
+    open mem_usage.png
+
 # Start a remote daemon to collect memory usage
 remote-start host:
     scp src/collect_mem_usage.sh {{host}}:/tmp
@@ -29,11 +42,6 @@ remote-clean host:
         /tmp/collect_mem_usage.txt \
         /tmp/mem_usage.tar.gz \
         /tmp/mem_usage
-
-# Plot the data and open the graph
-plot:
-    ./src/plot_data.sh
-    open mem_usage.png
 
 _required-bins:
     #!/usr/bin/env bash

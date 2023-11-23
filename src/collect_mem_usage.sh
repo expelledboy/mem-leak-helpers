@@ -21,7 +21,7 @@ main() {
 	local data_dir="/tmp/mem_usage"
 	local sample_rate=300 # 5 minutes
 
-	while getopts ":d:r:" ARG; do
+	while getopts ":d:s:" ARG; do
 		case "${ARG}" in
 		d) data_dir=${OPTARG} ;;
 		s) sample_rate=${OPTARG} ;;

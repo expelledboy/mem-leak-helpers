@@ -6,6 +6,50 @@ Here is a preview of the graph generated.
 
 ![Graph](./assets/mem_usage.png)
 
+### Usage
+
+You can investigate a process running on your local machine, or deploy the script to a remote machine in a screen session.
+
+Local usage:
+
+```bash
+# Start collecting data
+just start
+```
+
+```bash
+# In a separate terminal, you can plot it at any time
+just plot
+
+# After you are done, stop the data collection
+# And don't forget to clean up after yourself
+just clean
+```
+
+Remote usage:
+
+```bash
+export host=host_name_or_ip_address
+
+ # Start collecting data
+just remote-start ${host}
+
+# At anytime pull the data
+just remote-download ${host}
+
+# ... and plot it
+just plot
+
+# Stop collecting data
+just remote-stop ${host}
+
+# Keep your sysadmin happy :)
+just remote-clean ${host}
+
+# If you want to peek at the daemons output
+just remote-peek ${host}
+```
+
 ### Requirements
 
 The scripts in this project uses the following versions of the tools, installed locally:
@@ -66,24 +110,6 @@ If this list is outdated, run the following to get the list of required tools:
 
 ```bash {cmd}
 just _required-bins
-```
-
-### Usage
-
-From your local machine, run the following commands:
-
-```bash
-export host=host_name_or_ip_address
-
-just remote-start ${host} # Start collecting data
-
-just remote-download ${host} # At anytime pull the data
-just plot # ... and plot it
-
-just remote-stop ${host} # Stop collecting data
-just remote-clean ${host} # Keep your sysadmin happy :)
-
-just remote-peek ${host} # If you want to peek at the daemons output
 ```
 
 ### Notes
