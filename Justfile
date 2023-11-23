@@ -14,6 +14,13 @@ plot:
     ./src/plot_data.sh
     open mem_usage.png
 
+# Version of binaries installed locally
+@bin-versions:
+    bash --version | grep 'GNU bash'
+    awk --version | grep 'GNU Awk'
+    gnuplot --version
+    just --version
+
 # Start a remote daemon to collect memory usage
 remote-start host:
     scp src/collect_mem_usage.sh {{host}}:/tmp
@@ -43,7 +50,8 @@ remote-clean host:
         /tmp/mem_usage.tar.gz \
         /tmp/mem_usage
 
-_required-bins:
+# List of all the binaries required for remote collection
+remote-bins-required:
     #!/usr/bin/env bash
     (
         cat src/collect_mem_usage.sh | grep -Eo '\b[a-z]+\b' | xargs which | xargs -n 1 basename

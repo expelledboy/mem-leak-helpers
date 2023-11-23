@@ -52,15 +52,6 @@ just remote-peek ${host}
 
 ### Requirements
 
-The scripts in this project uses the following versions of the tools, installed locally:
-
-```
-GNU bash, version 5.2.15(1)-release (aarch64-apple-darwin22.3.0)
-GNU Awk 5.2.1, API 3.2
-gnuplot 5.4 patchlevel 6
-just 1.13.0
-```
-
 If there is any problem with the scripts, please check the versions of the tools you are using.
 
 ```bash {cmd}
@@ -70,20 +61,39 @@ gnuplot --version
 just --version
 ```
 
-For you convenience, you can start a `nix-shell`
+At the time of writing these scripts these were the versions of the tools
+installed locally:
 
 ```
-~/repos/mem-leak-helpers on master!
-$ nix-shell
+GNU bash, version 5.2.15(1)-release (aarch64-apple-darwin22.4.0)
+GNU Awk 5.2.1, API 3.2
+gnuplot 5.4 patchlevel 6
+just 1.13.0
+```
 
-[nix-shell:~/repos/expelledboy/mem-leak-helpers]$ just
+For you convenience, you can get these exact versions using the nix flake.
+
+```bash
+$ nix develop
+
+mem-leak-helpers $ just
 Available recipes:
-    remote-start host    # Start a remote daemon to collect memory usage
-    remote-peek host     # Peek at the output of the daemon
-    remote-stop host     # Stop the remote daemon
-    remote-download host # Download the data from the remote host
-    remote-clean host    # Purge any files used during the collection
-    plot                 # Plot the data and open the graph
+    start sample_rate="5" # Run the memory usage collection script (locally)
+    clean                 # Purge files used for local collection
+    plot                  # Plot the data and open the graph
+    bin-versions          # Version of binaries installed locally
+    remote-start host     # Start a remote daemon to collect memory usage
+    remote-peek host      # Peek at the output of the daemon
+    remote-stop host      # Stop the remote daemon
+    remote-download host  # Download the data from the remote host
+    remote-clean host     # Purge any files used during the collection
+    remote-bins-required  # List of all the binaries required for remote collection
+
+mem-leak-helpers $ just bin-versions
+GNU bash, version 5.2.15(1)-release (aarch64-apple-darwin22.4.0)
+GNU Awk 5.2.1, API 3.2
+gnuplot 5.4 patchlevel 6
+just 1.13.0
 ```
 
 On the remote host, the following tools are required:
@@ -103,13 +113,6 @@ screen
 sleep
 tar
 true
-```
-
-
-If this list is outdated, run the following to get the list of required tools:
-
-```bash {cmd}
-just _required-bins
 ```
 
 ### Notes
