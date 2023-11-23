@@ -22,9 +22,9 @@ plot:
     just --version
 
 # Start a remote daemon to collect memory usage
-remote-start host:
+remote-start host sample_rate="5" data_dir="/tmp/mem_usage":
     scp src/collect_mem_usage.sh {{host}}:/tmp
-    ssh {{host}} screen -dmS mem_usage bash /tmp/collect_mem_usage.sh
+    ssh {{host}} screen -dmS mem_usage bash /tmp/collect_mem_usage.sh -d {{data_dir}} -s {{sample_rate}}
 
 # Peek at the output of the daemon
 remote-peek host:

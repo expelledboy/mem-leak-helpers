@@ -2,6 +2,12 @@
 
 > Utilities to assist you finding processes that are leaking memory on a running system
 
+There are two operations that are needed to find a memory leak:
+- Sampling the memory usage of all processes
+- Plotting the data
+
+The sample rate can be adjusted to suit your needs. For example, if you are looking for a leak that happens over a long period of time, you can set the sample rate to 30 minutes, or even daily. If you are looking for a leak that happens quickly, you can set the sample rate to 5 seconds.
+
 Here is a preview of the graph generated.
 
 ![Graph](./assets/mem_usage.png)
@@ -10,7 +16,7 @@ Here is a preview of the graph generated.
 
 You can investigate a process running on your local machine, or deploy the script to a remote machine in a screen session.
 
-Local usage:
+**Local usage**
 
 ```bash
 # Start collecting data
@@ -26,7 +32,7 @@ just plot
 just clean
 ```
 
-Remote usage:
+**Remote usage**
 
 ```bash
 export host=host_name_or_ip_address
@@ -48,6 +54,20 @@ just remote-clean ${host}
 
 # If you want to peek at the daemons output
 just remote-peek ${host}
+```
+
+**Stopping and starting the data collection**
+
+So long as you don't delete the data directory on the remote host, you can stop and start the data collection at any time.
+
+**Data directory**
+
+If your host is crashing and clearing the `/tmp` directory, you can change the data directory by setting the `data_dir` variable in the `remote-start` recipe.
+
+```bash
+export HOST=host_name_or_ip_address
+
+just remote-start ${HOST} data_dir=/var/tmp
 ```
 
 ### Requirements
@@ -82,7 +102,7 @@ Available recipes:
     clean                 # Purge files used for local collection
     plot                  # Plot the data and open the graph
     bin-versions          # Version of binaries installed locally
-    remote-start host     # Start a remote daemon to collect memory usage
+    remote-start host sample_rate="5" data_dir="/tmp/mem_usage" # Start a remote daemon to collect memory usage
     remote-peek host      # Peek at the output of the daemon
     remote-stop host      # Stop the remote daemon
     remote-download host  # Download the data from the remote host
@@ -114,8 +134,3 @@ sleep
 tar
 true
 ```
-
-### Notes
-
-- So long as you don't delete the data directory on the remote host, you can stop and start the data collection at any time.
-- If your host is crashing and clearing the `/tmp` directory, please look through the `./src` and the `Justfile` for how to change the data directory of the daemon.
